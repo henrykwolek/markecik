@@ -42,17 +42,32 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
               <a class="nav-link" href="#"
-                >Strona główna
+                ><button class="btn btn-dark">Strona główna</button>
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             @if(Auth::check())
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.index') }}">Administracja</a>
+              <a class="nav-link" href="{{ route('admin.index') }}"><button class="btn btn-dark">Administracja</button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">
+              <form action="/logout" method="post">
+                @csrf
+                <button class="btn btn-dark">Wyloguj się</button>
+            </form>
+            </a>
             </li>
             @else
             <li class="nav-item">
-              <a class="nav-link" href="/login">Logowanie</a>
+              <a class="nav-link" href="/login">
+                <button class="btn btn-dark">Logowanie</button>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">
+                <button class="btn btn-dark">Rejestracja</button>
+              </a>
             </li>
             @endif
           </ul>

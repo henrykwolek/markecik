@@ -18,10 +18,10 @@
 
           <!-- Preview Image -->
           <img
-            class="img-fluid rounded"
-            src="{{$post->post_image}}"
-            alt=""
-          />
+              class="card-img-top"
+              src="{{asset($post->post_image)}}"
+              alt="Card image cap"
+            />
 
           <hr />
 

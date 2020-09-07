@@ -1,15 +1,15 @@
 <x-admin-master>
     @section('content')
 
-        <h1>Utwórz nowe ogłoszenie</h1>
+        <h1>Edytuj istniejące ogłoszenie</h1>
 
-                <form method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
+                <form method="post" action="{{route('post.edit')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group mb-3">
                             <div class="input-group-prepend" style="width: 150px">
                                 <span class="input-group-text" style="width: 150px" id="basic-addon1">Tytuł ogłoszenia</span>
                             </div>
-                            <input type="text" name="title" id="title" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                            <input type="text" value="{{$post->title}}" name="title" id="title" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                         </div>
                         <div class="form-group">
                                 <div class="input-group mb-3">

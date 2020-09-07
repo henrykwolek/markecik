@@ -35,6 +35,7 @@
             <div class="card-footer text-muted">
               Utworzono {{$post->created_at->diffForHumans()}} przez
             <a href="#">{{$post->user->name}}</a>
+            <div class="float-right">Cena: {{$post->post_price}} PLN</div>
             </div>
           </div>
           @endforeach

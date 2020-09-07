@@ -4,15 +4,11 @@
           <h1 class="mt-4">{{$post->title}}</h1>
 
           <!-- Author -->
-          <p class="lead">
-            by
-            <a href="#">{{$post->user->name}}</a>
-          </p>
 
           <hr />
 
           <!-- Date/Time -->
-          <p>Utworzono {{$post->created_at->diffForHumans()}}</p>
+          <p>Utworzono {{$post->created_at->diffForHumans()}} przez: <a href="#">{{$post->user->name}}</a></p>
 
           <hr />
 

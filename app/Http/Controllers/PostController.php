@@ -56,8 +56,30 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', [
-            'post' => $post
-        ]);
+        return view('admin.posts.edit', ['post'=> $post]);
     }
+
+    public function update(Post $post)
+    {
+        $inputs = request()->validate([
+            'title' => ['required', 'max:255'],
+            'post_image' => ['file'],
+            'post_price' => ['required'],
+            'body' => ['required'],
+        ]);
+
+        if(request('post_image'))
+        {
+            $inputs['post_image'] = request('post_image')->store('images');
+            $post->post_image = $inputs['post_image'];
+        }
+
+        $post->title = $inputs['title'];
+        $post->post_price = $inputs['post_price'];
+        $post->body = $inputs['body'];
+
+        auth()->user()->posts()->save($post);
+
+        return redirect()->route('post.index')->with('info', 'Zmiany zostały zapisane');
+     }
 }

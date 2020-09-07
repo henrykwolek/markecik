@@ -25,3 +25,4 @@ Route::get('/admin/dashboard/posts/create', 'PostController@create')->name('post
 Route::get('/admin/dashboard/posts/view', 'PostController@index')->name('post.index')->middleware('is_admin');
 Route::delete('/admin/dashboard/posts/{post}/delete', 'PostController@destroy')->name('post.destroy')->middleware('is_admin');
 Route::get('/admin/dashboard/posts/{post}/edit', 'PostController@edit')->name('post.edit')->middleware('is_admin');
+Route::patch('/admin/dashboard/posts/{post}/update', 'PostController@update')->name('post.update')->middleware('is_admin');

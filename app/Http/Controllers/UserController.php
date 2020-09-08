@@ -7,11 +7,25 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::all();
+        return view('admin.users.index', [
+            'users' => $users
+        ]);
+    }
+
     public function show(User $user)
     {
         return view('admin.users.profile', [
             'user' => $user
         ]);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return back()->with('danger', 'Usunięto profil użytkownika');
     }
 
     public function update(User $user)
@@ -20,13 +34,13 @@ class UserController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$user->id],
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['file'],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'password' => ['min:8', 'confirmed']
         ]);
 
         if(request('avatar'))
         {
-            $inputs['avatar'] = request('avatar')->store('avatars');
+            $inputs['avatar'] = request('avatar')->store('images');
         }
 
         $user->update($inputs);

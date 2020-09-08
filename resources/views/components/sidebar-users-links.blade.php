@@ -18,7 +18,7 @@
           >
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Zarządzanie:</h6>
-              <a class="collapse-item" href="utilities-color.html">Lista wszystkich</a>
+              <a class="collapse-item" href="{{route('users.index')}}">Lista wszystkich</a>
               <a class="collapse-item" href="utilities-border.html">Administratorzy</a>
               <a class="collapse-item" href="utilities-animation.html"
                 >Przydziel role</a

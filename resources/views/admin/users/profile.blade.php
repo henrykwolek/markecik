@@ -32,12 +32,12 @@
                             </div>
                         @enderror
                     </div>
-                     <img src="{{$user->avatar}}" height="100px" class="rounded-circle" alt="Awatar użytkownika"> 
+                     <img src="{{asset($user->avatar)}}" height="100px" class="rounded-circle" alt="Awatar użytkownika"> 
                     <div class="form-group">
                         <label for="username">Nazwa użytkownika</label>
                         <input type="text" placeholder="Podaj nazwę użytkownika" class="form-control" value="{{$user->username}}" name="username" id="username">
                     </div>
-                    @error('avatar')
+                    @error('username')
                             <div class="alert alert-danger alert-block">
                                 <button type="button" class="close" data-dismiss="alert">×</button>    
                                 <strong>{{ $message }}</strong>
@@ -47,6 +47,12 @@
                         <label for="name">Imię i nazwisko</label>
                         <input type="text" placeholder="Podaj swoje imię i nazwisko" class="form-control" value="{{$user->name}}" name="name" id="name">
                     </div>
+                    @error('name')
+                            <div class="alert alert-danger alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button>    
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     <div class="form-group">
                         <label for="email">Adres email</label>
                         <input type="text" placeholder="Podaj swój adres email" class="form-control" value="{{$user->email}}" name="email" id="email">

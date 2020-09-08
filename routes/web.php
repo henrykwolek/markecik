@@ -32,3 +32,5 @@ Route::patch('/admin/dashboard/posts/{post}/update', 'PostController@update')->n
 //User routes
 Route::put('/admin/dashboard/users/{user}/update', 'UserController@update')->name('user.update')->middleware('is_admin');
 Route::get('/admin/dashboard/profile/{user}', 'UserController@show')->name('user.profile')->middleware('is_admin');
+Route::get('admin/dashboard/users', 'UserController@index')->name('users.index')->middleware('is_admin');
+Route::delete('/admin/dashboard/user/{user}/delete', 'USerController@destroy')->name('user.destroy')->middleware('is_admin');

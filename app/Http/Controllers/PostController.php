@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Post;
@@ -11,7 +12,7 @@ class PostController extends Controller
 {
     public function index(Post $post)
     {
-        $posts = Post::orderBy('id', 'DESC')->paginate(10);
+        $posts = Post::orderBy('id', 'DESC')->paginate(9);
         return view('admin.posts.viewposts', [
             'posts' => $posts
         ]);

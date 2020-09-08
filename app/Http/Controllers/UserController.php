@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Post;
+use Auth;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -15,10 +18,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function normaluserprofile(User $user)
+    public function normaluserprofile(User $user, Post $post)
     {
-        return view('normaluserprofile', [
-            'user' => $user
+        $posts = Post::orderBy('id', 'DESC')->where('user_id', Auth::user()->id)->paginate(9);
+        return view('user-profile', [
+            'user' => $user,
+            'posts' => $posts
         ]);
     }
 
@@ -48,6 +53,8 @@ class UserController extends Controller
         if(request('avatar'))
         {
             $inputs['avatar'] = request('avatar')->store('images');
+            $image = Image::make(public_path($inputs['avatar']))->fit(300, 300);
+            $image->save();
         }
 
         $user->update($inputs);

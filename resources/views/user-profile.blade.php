@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{route('home')}}"
+              <a class="nav-link" href="{{ route('home') }}"
                 ><button class="btn btn-dark">Strona główna</button>
                 <span class="sr-only">(current)</span>
               </a>
@@ -50,8 +50,6 @@
               @if (Auth::user()->is_admin == 1)
                   <li class="nav-item">
               <a class="nav-link" href="{{ route('admin.index') }}"><button class="btn btn-dark">Administracja</button></a>
-              <li class="nav-item">
-              <a class="nav-link" href="{{route('user.show.profile', Auth::user())}}"><button class="btn btn-dark">{{Auth::user()->name}} - profil</button></a></li>
             </li>
               @else
               <li class="nav-item">
@@ -83,21 +81,35 @@
       </div>
     </nav>
 
-    <!-- Page Content -->
     <div class="container">
-      <h1 class="my-4">
-            Najnowsze ogłoszenia
-            <br>
-            <small>Kategoria: Sprzedaż/kupno</small>
-          </h1>
+      <div class="row"><hr></div>
+      <div class="row">
+        <div class="col-md-4">
+           <img style="width: 100%; max-width: 300px;" src="{{asset($user->avatar)}}" class="rounded-circle" alt="Cinque Terre"> 
+        </div>
+        <div class="col-md-8">
+          <h4 class="my-4"><strong>Imię i nazwisko: </strong>{{$user->name}}</h4>
+          <h4 class="my-4"><strong>Nazwa użytkownika: </strong>{{$user->username}}</h4>
+          <h4 class="my-4"><strong>Adres email: </strong>{{$user->email}}</h4>
+          <h4 class="my-4"><strong>Data dołączenia: </strong>{{$user->created_at}}</h4>
+          <h4 class="my-4"><strong>Ostatnia aktualizacja: </strong>{{$user->updated_at->diffForHumans()}}</h4>
+          <h4 class="my-4"><a href="">Edytuj swój profil</a></h4>
+        </div>
       </div>
-      <!-- Blog Post -->
-          <div class="container">
-            @foreach ($posts->chunk(3) as $chunk)
+      <hr>
+      <div class="row">
+        @if (Auth::user()->id == $user->id)
+            <h2 class="my-4">Twoje posty:</h2>
+        @else
+          <h2 class="my-4">Posty użytkownika {{$user->username}}:</h2>
+        @endif
+      </div>
+      <div class="row">
+        @foreach ($posts->chunk(3) as $chunk)
               <div class="card-deck">
                 @foreach ($chunk as $post)
-                <div class="card">
-                  <img src="{{$post->post_image}}" class="img-fluid" alt="...">
+                <div class="card mb-3">
+                  <img src="{{asset($post->post_image)}}" class="img-fluid" alt="...">
                   <div class="card-body">
                     <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
                     <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
@@ -112,37 +124,7 @@
               </div>
               <br>
           @endforeach
-          </div>
-
-          
-
-          <!-- Pagination -->
-          <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-              <a class="page-link" href="#">&larr; Older</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="#">Newer &rarr;</a>
-            </li>
-          </ul>
-
-    </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">
-          Copyright &copy; 2020
-        </p>
       </div>
-      <!-- /.container -->
-    </footer>
-
-    <!-- Bootstrap core JavaScript -->
+    </div>
     <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
-  </body>
-</html>
-
-

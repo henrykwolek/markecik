@@ -18,10 +18,10 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/ogloszenie/{post}', 'PostController@show')->name('post');
 
-//Admin routes
+//Admin routes - admin
 Route::get('/admin/dashboard', 'AdminsController@index')->name('admin.index')->middleware('is_admin');
 
-//Post routes
+//Post routes -admin
 Route::post('/admin/dashboard/posts', 'PostController@store')->name('post.store')->middleware('is_admin');
 Route::get('/admin/dashboard/posts/create', 'PostController@create')->name('post.create')->middleware('is_admin');
 Route::get('/admin/dashboard/posts/view', 'PostController@index')->name('post.index')->middleware('is_admin');
@@ -29,12 +29,13 @@ Route::get('/admin/dashboard/posts/{post}/edit', 'PostController@edit')->name('p
 Route::delete('/admin/dashboard/posts/{post}/delete', 'PostController@destroy')->name('post.destroy')->middleware('is_admin');
 Route::patch('/admin/dashboard/posts/{post}/update', 'PostController@update')->name('post.update')->middleware('is_admin');
 
-//User routes
+//User routes -admin
 Route::put('/admin/dashboard/users/{user}/update', 'UserController@update')->name('user.update')->middleware('is_admin');
 Route::get('/admin/dashboard/profile/{user}', 'UserController@show')->name('user.profile')->middleware('is_admin');
 Route::get('admin/dashboard/users', 'UserController@index')->name('users.index')->middleware('is_admin');
 Route::delete('/admin/dashboard/user/{user}/delete', 'USerController@destroy')->name('user.destroy')->middleware('is_admin');
 
+//Normal, but authenticated user routes
 Route::middleware('auth')->group(function()
     {
         Route::get('profile/{user}', 'UserController@normaluserprofile')->name('user.show.profile');

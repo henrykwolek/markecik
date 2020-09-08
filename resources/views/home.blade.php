@@ -47,9 +47,15 @@
               </a>
             </li>
             @if(Auth::check())
-            <li class="nav-item">
+              @if (Auth::user()->is_admin == 1)
+                  <li class="nav-item">
               <a class="nav-link" href="{{ route('admin.index') }}"><button class="btn btn-dark">Administracja</button></a>
             </li>
+              @else
+              <li class="nav-item">
+              <a class="nav-link" href="{{route('user.show.profile', Auth::user())}}"><button class="btn btn-dark">{{Auth::user()->name}} - profil</button></a>
+            </li>
+              @endif
             <li class="nav-item">
               <a class="nav-link" href="/logout">
               <form action="/logout" method="post">

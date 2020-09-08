@@ -15,6 +15,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function normaluserprofile(User $user)
+    {
+        return view('normaluserprofile', [
+            'user' => $user
+        ]);
+    }
+
     public function show(User $user)
     {
         return view('admin.users.profile', [

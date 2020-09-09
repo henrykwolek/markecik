@@ -34,6 +34,20 @@ class UserController extends Controller
         ]);
     }
 
+    public function showNormalUser(User $user)
+    {
+        if(Auth::user()->id != $user->id)
+        {
+            return back();
+        }
+        else
+        {
+            return view('user-edit-profile', [
+            'user' => $user
+            ]);
+        }
+    }
+
     public function destroy(User $user)
     {
         $user->delete();
@@ -46,6 +60,7 @@ class UserController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$user->id],
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['file'],
+            'about' => [''],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'password' => ['min:8', 'confirmed']
         ]);

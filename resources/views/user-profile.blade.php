@@ -26,7 +26,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">Portal uczniowski IILO w Gdyni</a>
+        <a class="navbar-brand" href="{{ route('home') }}">Marketplace project</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -85,21 +85,36 @@
       <div class="row"><hr></div>
       <div class="row">
         <div class="col-md-4">
-           <img style="width: 100%; max-width: 300px;" src="{{asset($user->avatar)}}" class="rounded-circle" alt="Cinque Terre"> 
+           <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="Cinque Terre"> 
         </div>
-        <div class="col-md-8">
-          <h4 class="my-4"><strong>Imię i nazwisko: </strong>{{$user->name}}</h4>
-          <h4 class="my-4"><strong>Nazwa użytkownika: </strong>{{$user->username}}</h4>
-          <h4 class="my-4"><strong>Adres email: </strong>{{$user->email}}</h4>
-          <h4 class="my-4"><strong>Data dołączenia: </strong>{{$user->created_at}}</h4>
-          <h4 class="my-4"><strong>Ostatnia aktualizacja: </strong>{{$user->updated_at->diffForHumans()}}</h4>
-          <h4 class="my-4"><a href="">Edytuj swój profil</a></h4>
+        <div class="col-md-4">
+          <h5 class="my-4"><strong>Imię i nazwisko: </strong>{{$user->name}}</h5>
+          <h5 class="my-4"><strong>Nazwa użytkownika: </strong>{{$user->username}}</h5>
+          @if (Auth::user()->id == $user->id)
+              <h5 class="my-4"><strong>Adres email: </strong>{{$user->email}}</h5>
+          @endif
+          <blockquote class="blockquote text-justify">
+            <p class="mb-1">{{$user->about}}</p>
+            <footer class="blockquote-footer">{{$user->name}}, <cite title="Source Title">Mój biogram</cite></footer>
+          </blockquote>
+          @if (Auth::user()->id == $user->id)
+            <h5 class="my-4"><a href="{{route('user.show.detail.profile', $user)}}">Edytuj swój profil</a> | <a href="{{route('user.post.create')}}">Nowe ogłoszenie</a></h5>
+          @endif
         </div>
       </div>
       <hr>
+      @if ($message = Session::get('danger'))
+    <div class="alert alert-danger alert-block">
+
+    <button type="button" class="close" data-dismiss="alert">×</button>    
+
+    <strong>{{ $message }}</strong>
+
+  </div>
+@endif
       <div class="row">
         @if (Auth::user()->id == $user->id)
-            <h2 class="my-4">Twoje posty:</h2>
+            <h3 class="my-4">Twoje posty:</h3>
         @else
           <h2 class="my-4">Posty użytkownika {{$user->username}}:</h2>
         @endif
@@ -114,6 +129,15 @@
                     <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
                     <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
                     <p class="card-text">{{$post->post_price}} PLN</p>
+                    @if (Auth::user()->id == $user->id)
+                      <p class="text-danger">
+                        <form action="{{route('post.destroy', $post->id)}}" method="post">
+                          @csrf
+                          @method('delete')
+                          <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                      </p> 
+                    @endif
                   </div>
                   <div class="card-footer">
                     <small class="text-muted">Utworzono {{$post->created_at->diffForHumans()}} przez
@@ -126,5 +150,5 @@
           @endforeach
       </div>
     </div>
-    <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
+<script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>

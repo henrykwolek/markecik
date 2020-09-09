@@ -39,4 +39,9 @@ Route::delete('/admin/dashboard/user/{user}/delete', 'USerController@destroy')->
 Route::middleware('auth')->group(function()
     {
         Route::get('profile/{user}', 'UserController@normaluserprofile')->name('user.show.profile');
+        Route::get('/profile/{user}/edit', 'UserController@showNormalUser')->name('user.show.detail.profile');
+        Route::put('/profile/{user}/update', 'UserController@update')->name('user.profile.update');
+        Route::get('/post/create', 'PostController@userCreate')->name('user.post.create');
+        Route::post('/posts/posts', 'PostController@userStore')->name('user.post.store');
+        Route::delete('/posts/destroyer/{post}/delete', 'PostController@Userdestroy')->name('user.post.destroy');
     });

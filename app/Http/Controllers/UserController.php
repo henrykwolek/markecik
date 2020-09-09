@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function normaluserprofile(User $user, Post $post)
     {
-        $posts = Post::orderBy('id', 'DESC')->where('user_id', Auth::user()->id)->paginate(9);
+        $posts = Post::orderBy('id', 'DESC')->where('user_id', $user->id)->paginate(9);
         return view('user-profile', [
             'user' => $user,
             'posts' => $posts

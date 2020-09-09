@@ -83,22 +83,26 @@
 
     <div class="container">
       <div class="row"><hr></div>
-      <div class="row">
+      <div class="row d-flex align-items-start">
         <div class="col-md-4">
            <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="Cinque Terre"> 
         </div>
         <div class="col-md-4">
           <h5 class="my-4"><strong>Imię i nazwisko: </strong>{{$user->name}}</h5>
           <h5 class="my-4"><strong>Nazwa użytkownika: </strong>{{$user->username}}</h5>
-          @if (Auth::user()->id == $user->id)
+          @if(Auth::check())
+            @if (Auth::user()->id == $user->id)
               <h5 class="my-4"><strong>Adres email: </strong>{{$user->email}}</h5>
+            @endif
           @endif
           <blockquote class="blockquote text-justify">
             <p class="mb-1">{{$user->about}}</p>
             <footer class="blockquote-footer">{{$user->name}}, <cite title="Source Title">Mój biogram</cite></footer>
           </blockquote>
-          @if (Auth::user()->id == $user->id)
-            <h5 class="my-4"><a href="{{route('user.show.detail.profile', $user)}}">Edytuj swój profil</a> | <a href="{{route('user.post.create')}}">Nowe ogłoszenie</a></h5>
+          @if (Auth::check())
+            @if (Auth::user()->id == $user->id)
+              <h5 class="my-4"><a href="{{route('user.show.detail.profile', $user)}}">Edytuj swój profil</a> | <a href="{{route('user.post.create')}}">Nowe ogłoszenie</a></h5>
+            @endif
           @endif
         </div>
       </div>
@@ -113,10 +117,12 @@
   </div>
 @endif
       <div class="row">
-        @if (Auth::user()->id == $user->id)
+        @if (Auth::check())
+          @if (Auth::user()->id == $user->id)
             <h3 class="my-4">Twoje posty:</h3>
-        @else
+          @else
           <h2 class="my-4">Posty użytkownika {{$user->username}}:</h2>
+        @endif 
         @endif
       </div>
       <div class="row">
@@ -129,14 +135,16 @@
                     <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
                     <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
                     <p class="card-text">{{$post->post_price}} PLN</p>
-                    @if (Auth::user()->id == $user->id)
-                      <p class="text-danger">
-                        <form action="{{route('post.destroy', $post->id)}}" method="post">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="btn btn-danger">Usuń</button>
-                        </form>
-                      </p> 
+                    @if (Auth::check())
+                      @if (Auth::user()->id == $user->id)
+                        <p class="text-danger">
+                          <form action="{{route('post.destroy', $post->id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                          </form>
+                        </p> 
+                      @endif
                     @endif
                   </div>
                   <div class="card-footer">

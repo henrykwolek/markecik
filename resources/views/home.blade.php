@@ -105,7 +105,7 @@
                   </div>
                   <div class="card-footer">
                     <small class="text-muted">Utworzono {{$post->created_at->diffForHumans()}} przez
-                    <a href="#">{{$post->user->name}}</a></small>
+                    <a href="{{route('user.show.profile', $post->user->id)}}">{{$post->user->name}}</a></small>
                   </div>
                 </div>
               @endforeach

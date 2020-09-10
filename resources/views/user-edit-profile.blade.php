@@ -98,7 +98,11 @@
 @endif
       <div class="row">
         <div class="col-md-4">
-           <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="Cinque Terre">
+          @if (Auth::user()->avatar == NULL)
+            <img height="300" width="300" src="https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png" class="rounded-circle mx-auto d-block" alt="">
+          @else
+            <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="">
+          @endif
            <br>
            <p class="lead text-center mb-0" style="font-size: 175%">{{$user->name}}</p>
            <p class="text-center mt-0">{{$user->username}}</p>
@@ -111,6 +115,8 @@
           <p class="lead">Ostatnia zmiana: {{$user->updated_at->diffForHumans()}}</p>
         </div>
         <div class="col-md-8">
+          <p class="lead" style="font-size: 150%">Podstawowe informacje</p>
+          <hr>
           <form method="post" action="{{route('user.profile.update', $user)}}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -119,30 +125,21 @@
                         <input type="text" placeholder="Podaj nazwę użytkownika" class="form-control" value="{{$user->username}}" name="username" id="username">
                     </div>
                     @error('username')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
+                      <p class="text-danger">{{ $message }}</p>
                     @enderror
                     <div class="form-group">
                         <label for="name">Imię i nazwisko</label>
                         <input type="text" placeholder="Podaj swoje imię i nazwisko" class="form-control" value="{{$user->name}}" name="name" id="name">
                     </div>
                     @error('name')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
+                      <p class="text-danger">{{ $message }}</p>
                     @enderror
                     <div class="form-group">
                         <label for="email">Adres email</label>
                         <input type="text" placeholder="Podaj swój adres email" class="form-control" value="{{$user->email}}" name="email" id="email">
                     </div>
                     @error('email')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
+                      <p class="text-danger">{{ $message }}</p>
                     @enderror
                     <label for="profilePicturue">Nowe zdjęcie profilowe</label>
                     <div class="input-group mb-3">
@@ -151,37 +148,47 @@
                             <label class="custom-file-label" for="avatar">Wybierz plik</label>
                         </div>
                         @error('avatar')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
+                          <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="about">Biogram</label>
                         <textarea class="form-control" name="about" id="about" cols="30" placeholder="Opowiedz o sobie" rows="4">{{$user->about}}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Hasło • Wymagane dla potwierdzenia</label>
-                        <input type="password" placeholder="Nowe hasło" class="form-control" value="" name="password" id="password">
-                    </div>
-                    @error('password')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
-                    @enderror
-                    <div class="form-group">
-                        <label for="password-confirm">Powtórz hasło • Wymagane dla potwierdzenia</label>
-                        <input type="password" placeholder="Powtórz hasło" class="form-control" value="" name="password_confirmation" id="password_confirmation">
-                    </div>
-                    @error('password_confirmation')
-                            <div class="alert alert-danger alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>    
-                                <strong>{{ $message }}</strong>
-                            </div>
-                    @enderror
                     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </form>
+                <br>
+                <p class="lead" style="font-size: 150%">Zmiana hasła</p>
+                <hr>
+
+
+                <form method="post" action="{{route('user.profile.changepassword', $user)}}" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="form-group">
+                    <label for="password">Hasło • Wymagane dla potwierdzenia</label>
+                    <input type="password" placeholder="Nowe hasło" class="form-control" value="" name="password" id="password">
+                </div>
+                @error('password')
+                  <p class="text-danger">{{ $message }}</p>
+                @enderror
+                <div class="form-group">
+                    <label for="password-confirm">Powtórz hasło • Wymagane dla potwierdzenia</label>
+                    <input type="password" placeholder="Powtórz hasło" class="form-control" value="" name="password_confirmation" id="password_confirmation">
+                </div>
+                @error('password_confirmation')
+                  <p class="text-danger">{{ $message }}</p>
+                @enderror
+                <button type="submit" class="btn btn-primary">Zmień hasło</button>
+                </form>
+                <br>
+                <p class="lead" style="font-size: 150%">Usuwanie konta</p>
+                <hr>
+                <form method="post" action="{{route('user.destroy', $user)}}" enctype="multipart/form-data">
+                  @csrf
+                  @method('delete')
+                  <button type="submit" class="btn btn-danger">Usuń swoje konto</button> 
+                  <p class="text-danger">Uwaga! ta czynność jest nieodwracalna.</p>
                 </form>
         </div>
       </div>

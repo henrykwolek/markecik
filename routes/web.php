@@ -40,9 +40,13 @@ Route::middleware('auth')->group(function()
     {
         Route::get('/profile/{user}/edit', 'UserController@showNormalUser')->name('user.show.detail.profile');
         Route::put('/profile/{user}/update', 'UserController@update')->name('user.profile.update');
+        Route::put('/profile/{user}/changepassword', 'UserController@changePassword')->name('user.profile.changepassword');
         Route::get('/post/create', 'PostController@userCreate')->name('user.post.create');
         Route::post('/posts/posts', 'PostController@userStore')->name('user.post.store');
         Route::delete('/posts/destroyer/{post}/delete', 'PostController@Userdestroy')->name('user.post.destroy');
+        Route::delete('/profile/{user}/delete', 'UserController@destroy')->name('user.destroy');
+        Route::get('/ogloszenie/{post}/edit', 'PostController@userEditPost')->name('user.post.edit');
+        Route::patch('/ogloszenie/{post}/update', 'PostController@update')->name('user.post.update');
     });
 
 //Unauthenticated routes

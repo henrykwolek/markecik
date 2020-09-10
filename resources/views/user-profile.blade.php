@@ -85,7 +85,11 @@
       <div class="row"><hr></div>
       <div class="row d-flex align-items-start">
         <div class="col-md-4">
-           <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="Cinque Terre"> 
+           @if (Auth::user()->avatar == NULL)
+              <img height="300" width="300" src="https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png" class="rounded-circle mx-auto d-block" alt="">
+            @else
+              <img src="{{asset($user->avatar)}}" class="rounded-circle mx-auto d-block" alt="">
+           @endif
         </div>
         <div class="col-md-4">
           <h5 class="my-4"><strong>Imię i nazwisko: </strong>{{$user->name}}</h5>
@@ -132,7 +136,15 @@
                 <div class="card mb-3">
                   <img src="{{asset($post->post_image)}}" class="img-fluid" alt="...">
                   <div class="card-body">
-                    <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
+                    @if (Auth::check())
+                        @if (Auth::user()->id == $user->id)
+                          <h4 class="card-title"><a href="{{route('user.post.edit', $post->id)}}">{{$post->title}}</a></h4>
+                        @else
+                          <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
+                        @endif
+                    @else
+                        <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
+                    @endif                    
                     <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
                     <p class="card-text">{{$post->post_price}} PLN</p>
                     @if (Auth::check())

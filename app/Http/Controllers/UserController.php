@@ -61,8 +61,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['file'],
             'about' => [''],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'password' => ['min:8', 'confirmed']
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id]
         ]);
 
         if(request('avatar'))
@@ -76,4 +75,16 @@ class UserController extends Controller
         
         return back()->with('success', 'Zmiany w profilu zostały zapisane');
      }
+
+     public function changePassword(User $user)
+     {
+         $inputs = request()->validate([
+            'password' => ['min:8', 'confirmed']
+         ]);
+
+         $user->update($inputs);
+         return back()->with('success', 'Twoje hasło zostało zmienione');
+     }
+
+
 }

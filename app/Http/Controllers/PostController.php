@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Auth;
 use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
     public function index(Post $post)
     {
-        $posts = Post::orderBy('id', 'DESC')->paginate(9);
+        $posts = Post::orderBy('id', 'DESC');
         return view('admin.posts.viewposts', [
             'posts' => $posts
         ]);
@@ -59,7 +61,7 @@ class PostController extends Controller
         $inputs = request()->validate([
             'title' => ['required', 'max:255'],
             'post_image' => ['file'],
-            'post_price' => ['required'],
+            'post_price' => ['required', 'integer'],
             'body' => ['required'],
         ]);
 
@@ -87,7 +89,24 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', ['post'=> $post]);
+        return view('admin.posts.edit', [
+            'post'=> $post
+            ]);
+    }
+
+    public function userEditPost(User $user, Post $post)
+    {
+        if(Auth::user()->id == $post->user->id)
+        {
+            return view('post-edit', [
+                'post' => $post,
+                'user' => $user
+            ]);
+        }
+        else
+        {
+            return back();
+        }
     }
 
     public function update(Post $post)
@@ -96,6 +115,7 @@ class PostController extends Controller
             'title' => ['required', 'max:255'],
             'post_image' => ['file'],
             'post_price' => ['required'],
+            'status' => ['string', 'required'],
             'body' => ['required'],
         ]);
 
@@ -108,9 +128,10 @@ class PostController extends Controller
         $post->title = $inputs['title'];
         $post->post_price = $inputs['post_price'];
         $post->body = $inputs['body'];
+        $post->status = $inputs['status'];
 
         auth()->user()->posts()->save($post);
 
-        return redirect()->route('post.index')->with('info', 'Zmiany zostały zapisane');
+        return back()->with('info', 'Zmiany zostały zapisane');
      }
 }

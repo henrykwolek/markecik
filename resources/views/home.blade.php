@@ -100,8 +100,15 @@
                   <img src="{{$post->post_image}}" class="img-fluid" alt="...">
                   <div class="card-body">
                     <h4 class="card-title"><a href="{{route('post', $post->id)}}">{{$post->title}}</a></h4>
-                    <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
-                    <p class="card-text">{{$post->post_price}} PLN</p>
+                    @if ($post->status == 'sold')
+                      <div class="alert alert-danger alert-block">
+                        <strong>Sprzedane</strong>
+                      </div>
+                      <p class="card-text">{{Str::limit($post->body, '40', '...')}}</p>
+                    @else
+                      <p class="card-text">{{Str::limit($post->body, '150', '...')}}</p>
+                    @endif
+                    <p class="card-text" style="font-size: 150%">{{$post->post_price}} PLN</p>
                   </div>
                   <div class="card-footer">
                     <small class="text-muted">Utworzono {{$post->created_at->diffForHumans()}} przez

@@ -80,15 +80,6 @@
         </div>
       </div>
     </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-      <h1 class="my-4">
-            Najnowsze ogłoszenia
-            <br>
-            <small>Kategoria: Sprzedaż/kupno</small>
-          </h1>
-      </div>
       <!-- Blog Post -->
           <div class="container">
             <div class="row">
@@ -114,7 +105,7 @@
             <hr>
 
             <!-- Post Content -->
-            <p>{{$post->body}}</p>
+            <p class="lead" style="text-align: justify">{{$post->body}}</p>
 
             <hr>
 

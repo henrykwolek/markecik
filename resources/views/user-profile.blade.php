@@ -170,5 +170,18 @@
           @endforeach
       </div>
     </div>
+
+    <div class="row d-flex justify-content-center">{{$posts->render()}}</div>
+
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">
+          Copyright &copy; 2020
+        </p>
+      </div>
+
+      
+      <!-- /.container -->
+    </footer>
 <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
